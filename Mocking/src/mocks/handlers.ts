@@ -9,6 +9,8 @@ export const handlers = [
   }),
 
   // Fehler-Endpoint – simuliert 500 Internal Server Error
+  //überflüssig nur App.tsx ruft es auf um Fehlerfall anzuzeigen 
+  //nicht im richtigen Test verwendet
   http.get("https://api.example.com/products-error", () => {
     return HttpResponse.json(
       { error: "Internal Server Error" },
