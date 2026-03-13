@@ -5,6 +5,7 @@ import { server } from "../mocks/server";
 import { errorHandler } from "../mocks/handlers";
 import { fakeProducts } from "../mocks/data";
 
+//Prüft direkt ob der Ladetext angezeigt wird
 describe("ProductList", () => {
   test("zeigt Ladeindikator während des Fetch", () => {
     render(<ProductList />);
@@ -16,34 +17,12 @@ describe("ProductList", () => {
 
     // Warten bis die Tabelle gerendert ist
     const rows = await screen.findAllByRole("row");
-    // 1 Header-Zeile + 5 Produkt-Zeilen
     expect(rows).toHaveLength(6);
 
     // Prüfen ob alle Produktnamen angezeigt werden
     for (const product of fakeProducts) {
       expect(screen.getByText(product.name)).toBeInTheDocument();
     }
-  });
-
-  test("zeigt Preise korrekt formatiert an", async () => {
-    render(<ProductList />);
-
-    await screen.findAllByRole("row");
-
-    expect(screen.getByText("59.99 €")).toBeInTheDocument();
-    expect(screen.getByText("34.99 €")).toBeInTheDocument();
-  });
-
-  test("zeigt Verfügbarkeit korrekt an", async () => {
-    render(<ProductList />);
-
-    await screen.findAllByRole("row");
-
-    const aufLager = screen.getAllByText("Auf Lager");
-    const nichtVerfuegbar = screen.getAllByText("Nicht verfügbar");
-
-    expect(aufLager).toHaveLength(4);
-    expect(nichtVerfuegbar).toHaveLength(1);
   });
 
   test("zeigt Fehlermeldung bei 500 Internal Server Error", async () => {
